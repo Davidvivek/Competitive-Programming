@@ -129,7 +129,7 @@ using sii  = set<int>;
 #define uppb(a,x) (upper_bound(all(a),x)-a.begin())
 
 // ====== MOD CONSTANT ======
-const long long mod = 998244353;
+const long long mod = 1e9 + 7;
 
 // ====== SIEVE and PRIME FACTORS ======
 const int N = 1e3;
@@ -160,13 +160,61 @@ vector<int> gp(int n)
 }
 
 // ====== SOLVE FUNCTION ======
-vi d(1e6+5);
-vi f(1e6+5);
-
 void david_vivek()
 {
     int n; cin >> n;
-    prt(f[n]);
+    vi a(n); inp(a);
+
+    int gcd_arr = 0;
+    rep(i,0,n) gcd_arr = __gcd(gcd_arr,a[i]);
+    rep(i,0,n) a[i] /= gcd_arr;
+
+    int cnt1 = 0;
+    for(auto x:a)
+    {
+        if(x==1) cnt1++;
+    }
+
+    if(cnt1==n)
+    {
+        cout << "Alice\n";
+        rt;
+    }
+
+    else if(cnt1 == n-1)
+    {
+        cout << "Bob\n";
+        rt;
+    }
+
+    else if(n==2)
+    {
+        cout << "Bob\n";
+        rt;
+    }
+
+    vi pref(n+2);
+    rep(i,0,n)
+    {
+        pref[i+1] = __gcd(pref[i],a[i]);
+    }
+
+    vi suf(n+2);
+    brep(i,n-1,0)
+    {
+        suf[i+1] = __gcd(suf[i+2],a[i]);
+    }
+
+    rep(i,1,n+1)
+    {
+        if(__gcd(pref[i-1],suf[i+1]) == 1)
+        {
+            cout << "Alice\n";
+            rt;
+        }
+    }
+    cout << "Bob\n";
+    rt;
 }
 
 // ====== MAIN ======
@@ -174,19 +222,6 @@ int32_t main()
 {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-
-    d[0] = 1; d[1] = 0; d[2] = 1;
-    rep(i,3,1e6+5)
-    {
-        d[i] = (((i-1)%mod)*((d[i-1]+d[i-2])%mod))%mod;
-    }
-    f[0] = f[1] = f[2] = 0;
-    rep(i,3,1e6+5)
-    {
-        int term2 = (i % mod * ((i - 1) % mod)) % mod; 
-        term2 = (term2 * (d[i-1] % mod)) % mod;
-        f[i] = ((i % mod * f[i-1]) % mod + term2) % mod;
-    }
 
     int t = 1;
     cin >> t;

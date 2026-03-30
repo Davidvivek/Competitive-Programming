@@ -129,7 +129,7 @@ using sii  = set<int>;
 #define uppb(a,x) (upper_bound(all(a),x)-a.begin())
 
 // ====== MOD CONSTANT ======
-const long long mod = 998244353;
+const long long mod = 1e9 + 7;
 
 // ====== SIEVE and PRIME FACTORS ======
 const int N = 1e3;
@@ -160,13 +160,37 @@ vector<int> gp(int n)
 }
 
 // ====== SOLVE FUNCTION ======
-vi d(1e6+5);
-vi f(1e6+5);
-
+int lcm(int a, int b)
+{
+    return (a*b)/(__gcd(a,b));
+}
 void david_vivek()
 {
     int n; cin >> n;
-    prt(f[n]);
+    vi a(n); inp(a);
+    vi b(n); inp(b);
+
+    if(n==2)
+    {
+        int g = __gcd(a[0],a[1]);
+        int cnt = 0;
+        if(a[0]>g) cnt++;
+        if(a[1]>g) cnt++;
+        prt(cnt); rt;
+    }
+
+    int cnt = 0;
+    vi g(n-1);
+    rep(i,0,n-1) g[i] = __gcd(a[i],a[i+1]);
+    rep(i,1,n-1)
+    {
+        int l = lcm(g[i-1],g[i]);
+        if(a[i]>l) cnt++;
+    }
+    if(a[0]>g[0]) cnt++;
+    if(a[n-1]>g[n-2]) cnt++;
+    prt(cnt);
+
 }
 
 // ====== MAIN ======
@@ -174,19 +198,6 @@ int32_t main()
 {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-
-    d[0] = 1; d[1] = 0; d[2] = 1;
-    rep(i,3,1e6+5)
-    {
-        d[i] = (((i-1)%mod)*((d[i-1]+d[i-2])%mod))%mod;
-    }
-    f[0] = f[1] = f[2] = 0;
-    rep(i,3,1e6+5)
-    {
-        int term2 = (i % mod * ((i - 1) % mod)) % mod; 
-        term2 = (term2 * (d[i-1] % mod)) % mod;
-        f[i] = ((i % mod * f[i-1]) % mod + term2) % mod;
-    }
 
     int t = 1;
     cin >> t;
