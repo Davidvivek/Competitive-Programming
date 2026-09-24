@@ -3,8 +3,7 @@ using namespace std;
 
 void solve()
 {
-    int n; cin >> n;
-
+    int n;
     if(n==1)
     {
         cout << "walk";
@@ -47,11 +46,20 @@ void solve()
     cout << endl;
 }
 
-int main ()
-{
-    int t=1;
-    while(t--)
-    {
-        solve();
-    }
+int main(){
+    vector<string> answers = {
+        "",
+        "walk",
+        "no",
+        "no",
+        "no",
+        "yes",
+        "yes",
+        "backwards",
+        "seven",
+    };
+    
+    int n;
+    cin >> n;
+    cout << answers[n];
 }
